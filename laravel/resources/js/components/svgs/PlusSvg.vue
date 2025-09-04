@@ -1,8 +1,20 @@
+<script>
+export default {
+    props: {
+        size: {
+            type: Number,
+            default: 20,
+        },
+    }
+}
+</script>
+
 <template>
+
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    width="20"
-    height="20"
+    v-bind:width="size"
+    v-bind:height="size"
     viewBox="0 0 24 24"
     fill="none"
     stroke="currentColor"
