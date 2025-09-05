@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Api\MemoApiController;
+use App\Http\Controllers\MemoController;
 use Illuminate\Support\Facades\Route;
 
 /**********************************************************************
