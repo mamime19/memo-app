@@ -8,6 +8,10 @@ use Illuminate\Http\Request;
 
 class MemoApiController extends Controller
 {
+    public function index() {
+        $memos = Memo::all();
+        return response()->json($memos);
+    }
     public function store(Request $request) {
         $validated = $request->validate([
             'text' => 'required',

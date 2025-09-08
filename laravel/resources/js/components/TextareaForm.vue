@@ -2,11 +2,13 @@
 import PlusSvg from "@/components/svgs/PlusSvg.vue";
 import { ref,computed } from 'vue'
 import axios from 'axios'
+import {defineEmits} from 'vue'
 
 const is_focused = ref(false)
 const is_composing = ref(false)
 const text = ref('')
 const message = ref('')
+const emit = defineEmits(['added'])
 
 const is_disabled = computed(()=>{
     return !is_composing.value && text.value.trim() === ''
@@ -19,6 +21,8 @@ const submit = async () => {
         })
         message.value = response.data.message
         text.value = ''
+        console.log('POST レスポンス:', response.data)
+        emit('added', response.data.memo)
     } catch (error) {
         message.value = 'エラーが発生しました。'
         console.error(error.response?.data || error.message)

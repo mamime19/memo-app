@@ -1,13 +1,28 @@
 <script setup lang="ts">
 import DocumentSvg from "@/components/svgs/DocumentSvg.vue";
 import TrashSvg from "@/components/svgs/TrashSvg.vue";
+import axios from 'axios'
 import { ref } from 'vue'
+import { defineProps } from 'vue'
 
-const memos = ref([
-    {text: 'vueの勉強をする', time: '2024-07-30 10:30'},
-    {text: 'Laravelの勉強をする', time: '2025-09-08 15:27'}
-])
 const mouseover_index = ref(-1)
+
+const props = defineProps({
+    memos: {
+        type: Array,
+        default: () => []
+    }
+})
+
+const show_time = (date_str: string) => {
+    const date_utc = new Date(date_str)
+    const date_japan = new Date(date_utc.getTime()+9*60*60*1000)
+    const japan_time = date_japan.toISOString()
+    console.log(japan_time)
+    const date = japan_time.substring(0,10)
+    const time = japan_time.substring(11,16)
+    return date + ' ' + time
+}
 
 </script>
 
@@ -20,26 +35,30 @@ const mouseover_index = ref(-1)
                     <div class="text-lg">保存されたメモ</div>
                 </div>
                 <div class="bg-orange-200 ps-2 pe-2 pt-1 pb-1 rounded-2xl">
-                    <div class="text-gray-600 text-sm">{{memos.length}}件</div>
+                    <div class="text-gray-600 text-sm">{{props.memos.length}}件</div>
                 </div>
             </div>
         </div>
     </div>
-    <div v-for="(memo, index) in memos" class="flex justify-center">
-        <div v-on:mouseover="mouseover_index=index" v-on:mouseleave="mouseover_index=-1" class="w-[650px] m-2 p-5 bg-white rounded-lg shadow-md">
+    <div v-for="(memo, index) in props.memos" class="flex justify-center">
+        <div @mouseover="mouseover_index=index" @mouseleave="mouseover_index=-1" class="w-[650px] m-2 p-5 bg-white rounded-lg shadow-md">
             <div v-if="mouseover_index==index" class="flex flex-col gap-[1.0em]">
                 <div class="flex justify-between">
-                    {{memo.text}}
+                    <div class="whitespace-pre-line">
+                        {{memo.text}}
+                    </div>
                     <TrashSvg />
                 </div>
                 <div class="text-xs text-gray-500">
-                    {{memo.time}}
+                    {{show_time(memo.created_at)}}
                 </div>
             </div>
             <div v-else class="flex flex-col gap-[1.0em]">
-                {{memo.text}}
+                <div class="whitespace-pre-line">
+                    {{memo.text}}
+                </div>
                 <div class="text-xs text-gray-500">
-                    {{memo.time}}
+                    {{show_time(memo.created_at)}}
                 </div>
             </div>
         </div>
