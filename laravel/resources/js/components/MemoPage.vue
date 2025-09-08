@@ -27,11 +27,15 @@ const addmemo = (newmemo) => {
     console.log(newmemo)
 }
 
+const deletememo = (memo, index) => {
+    memos.value.splice(index, 1)
+}
+
 </script>
 
 <template>
     <TextareaForm @added="addmemo" />
-    <MemoView :memos="memos"/>
+    <MemoView :memos="memos" @deleted="deletememo"/>
 </template>
 
 <style scoped>

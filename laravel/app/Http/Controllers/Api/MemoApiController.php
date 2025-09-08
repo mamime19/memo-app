@@ -24,4 +24,12 @@ class MemoApiController extends Controller
             'memo' => $memo,
         ]);
     }
+    public function delete(Request $request) {
+        $memo = Memo::find($request['id']);
+        $memo->delete();
+        return response()-> json([
+            'message' => 'メモを削除しました',
+            'memo' => $memo,
+        ]);
+    }
 }
