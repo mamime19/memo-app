@@ -40,7 +40,7 @@ const enterkey_process = (event: KeyboardEvent) => {
 
 <template>
     <div class="flex justify-center">
-        <div class="bg-white w-[650px] h-[325px] m-10 rounded-2xl">
+        <div class="bg-white w-[650px] h-[325px] ms-10 me-10 mt-10 mb-5 rounded-2xl shadow-lg">
             <div class="flex justify-start items-center m-[1.4em] gap-[0.3em]">
                 <PlusSvg size=28></PlusSvg>
                 <div class="text-lg">新しいメモ</div>
