@@ -8,6 +8,10 @@ use Illuminate\Http\Request;
 
 class MemoApiController extends Controller
 {
+    public function index() {
+        $memos = Memo::all();
+        return response()->json($memos);
+    }
     public function store(Request $request) {
         $validated = $request->validate([
             'text' => 'required',
@@ -17,6 +21,14 @@ class MemoApiController extends Controller
         ]);
         return response()-> json([
             'message' => 'メモを保存しました',
+            'memo' => $memo,
+        ]);
+    }
+    public function delete(Request $request) {
+        $memo = Memo::find($request['id']);
+        $memo->delete();
+        return response()-> json([
+            'message' => 'メモを削除しました',
             'memo' => $memo,
         ]);
     }
