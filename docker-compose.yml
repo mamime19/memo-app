@@ -24,6 +24,8 @@ services:
     build: ./infra/development/php
     volumes:
       - ./laravel:/var/www/html
+    ports:
+      - "8000:8000"
   db:
     build: ./infra/development/mysql
     volumes:
