@@ -32,4 +32,13 @@ class MemoApiController extends Controller
             'memo' => $memo,
         ]);
     }
+    public function update(Request $request) {
+        $memo = Memo::find($request['id']);
+        $memo->text = $request['text'];
+        $memo->save();
+        return response()-> json([
+            'message' => 'メモを編集しました',
+            'memo' => $memo,
+        ]);
+    }
 }
