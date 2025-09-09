@@ -50,7 +50,15 @@ const enterkey_process = (event: KeyboardEvent) => {
                 <div class="text-lg">新しいメモ</div>
             </div>
             <div class="flex justify-center m-2">
-                <textarea v-model="text" @keydown="enterkey_process" @focus="is_focused=true" @blur="is_focused=false" @compositionstart="is_composing=true" @compositionend="is_composing=false" :class="['w-full ms-5 me-5 p-3 h-[150px] text-md rounded-lg border resize-none outline-none transition-colors duration-100',is_focused ? 'border-blue-400' : 'border-gray-300']" placeholder="メモを入力してください... &#13; （Enterで保存、Shift+Enterで改行）"></textarea>
+                <textarea v-model="text"
+                          @keydown="enterkey_process"
+                          @focus="is_focused=true"
+                          @blur="is_focused=false"
+                          @compositionstart="is_composing=true"
+                          @compositionend="is_composing=false"
+                          :class="['w-full ms-5 me-5 p-3 h-[150px] text-md rounded-lg border resize-none outline-none transition-colors duration-100',
+                          is_focused ? 'border-blue-400' : 'border-gray-300']"
+                          placeholder="メモを入力してください... &#13; （Enterで保存、Shift+Enterで改行）"></textarea>
             </div>
             <div class="flex justify-center m-2">
                 <button @click="submit" :class="['w-full bg-gradient-to-r from-orange-400 via-orange-500 to-orange-600 text-white font-bold mt-3 ms-5 me-5 p-3 rounded-lg', is_disabled ? 'opacity-50 cursor-not-allowed':'']">
@@ -62,7 +70,6 @@ const enterkey_process = (event: KeyboardEvent) => {
             </div>
         </div>
     </div>
-    <p>{{ message }}</p>
 </template>
 
 <style scoped>
