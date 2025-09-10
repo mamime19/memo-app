@@ -5,9 +5,9 @@ import EditSvg from "@/components/svgs/EditSvg.vue";
 import axios from 'axios'
 import { ref } from 'vue'
 import { defineProps } from 'vue'
-import {defineEmits} from 'vue'
-import {watch} from 'vue'
-import {nextTick} from 'vue'
+import { defineEmits } from 'vue'
+import { watch } from 'vue'
+import { nextTick } from 'vue'
 
 
 const mouseover_index = ref(-1)
@@ -17,6 +17,7 @@ const emit = defineEmits(['deleted','edited'])
 const edit_text = ref('')
 const message=ref('')
 const edit_rows = ref(1)
+const edit_textarea = ref(null)
 
 const props = defineProps({
     memos: {
@@ -35,28 +36,42 @@ const show_time = (date_str: string) => {
 }
 
 const delete_memo = async (index: number) => {
-    const id=props.memos[index].id
-    console.log(id)
-    try {
-        const response = await axios.delete('http://localhost:48080/api/memos/'+id.toString())
-        const message = response.data.message
-        console.log(message)
-        console.log(index)
-        emit('deleted', response.data.memo, index)
-    } catch(error) {
-        console.error(error)
-        console.log('削除に失敗しました')
+    if(confirm(`「${props.memos[index].text}」を削除しますか？`)) {
+        const id = props.memos[index].id
+        console.log(id)
+        try {
+            const response = await axios.delete('http://localhost:48080/api/memos/' + id.toString())
+            const message = response.data.message
+            console.log(message)
+            console.log(index)
+            emit('deleted', response.data.memo, index)
+        } catch (error) {
+            console.error(error)
+            console.log('削除に失敗しました')
+        }
     }
 }
 
-watch(edit_text, ()=>{
+watch(edit_index, async (new_index) => {
+    if(new_index != -1) {
+        await nextTick()
+        edit_textarea.value.focus()
+    }
+})
+
+watch(edit_text, (new_text) => {
     edit_rows.value = 1
-    for(let i = 0; i < edit_text.value.length; i++) {
-        if(edit_text.value[i] === '\n') {
+    for(let i = 0; i < new_text.length; i++) {
+        if(new_text[i] === '\n') {
             edit_rows.value++
         }
     }
 })
+
+const update_editdata = (newindex, newtext) => {
+    edit_index.value = newindex
+    edit_text.value = newtext
+}
 
 const save = async (index: number) => {
     const id = props.memos[index].id
@@ -103,33 +118,36 @@ const enterkey_process = (event: KeyboardEvent, index: number) => {
             </div>
         </div>
     </div>
-    <div v-for="(memo, index) in props.memos" class="flex justify-center">
-        <div @mouseover="mouseover_index=index" @mouseleave="mouseover_index=-1" class="w-[650px] m-2 p-5 bg-white rounded-lg shadow-md">
-            <div class="flex flex-col gap-3">
-                <div :class="[mouseover_index==index? 'flex gap-2':'']">
-                    <div class="whitespace-pre-line flex-grow">
-                        <div v-if="edit_index==index" class="flex justify-center">
-                            <textarea
-                                v-model="edit_text"
-                                @focus="is_focused=true"
-                                @blur="is_focused=false"
-                                @keydown="(e) => enterkey_process(e, index)"
-                                :class="['w-full field-sizing-content p-2 border outline-none resize-none rounded-xl',
-                                is_focused ? 'border-blue-400' : 'border-gray-300']"
-                                :rows="edit_rows"
-                            ></textarea>
+    <div class="mb-9">
+        <div v-for="(memo, index) in props.memos" class="flex justify-center">
+            <div @mouseover="mouseover_index=index" @mouseleave="mouseover_index=-1" class="w-[650px] m-2 p-5 bg-white rounded-lg shadow-md">
+                <div class="flex flex-col gap-3">
+                    <div :class="[mouseover_index==index? 'flex gap-2':'']">
+                        <div class="whitespace-pre-line flex-grow">
+                            <div v-if="edit_index==index" class="flex justify-center">
+                                <textarea
+                                    v-model="edit_text"
+                                    @focus="is_focused=true"
+                                    @blur="is_focused=false;edit_index=-1"
+                                    @keydown="e => enterkey_process(e, index)"
+                                    :class="['w-full field-sizing-content p-2 border outline-none resize-none rounded-xl',
+                                    is_focused ? 'border-blue-400' : 'border-gray-300']"
+                                    :rows="edit_rows"
+                                    :ref="e => { edit_textarea = e }"
+                                ></textarea>
+                            </div>
+                            <div v-else>
+                                {{memo.text}}
+                            </div>
                         </div>
-                        <div v-else>
-                            {{memo.text}}
+                        <div v-if="mouseover_index==index" class="flex gap-2">
+                            <EditSvg @click="update_editdata(index, memo.text)"/>
+                            <TrashSvg @click="delete_memo(index)"/>
                         </div>
                     </div>
-                    <div v-if="mouseover_index==index" class="flex gap-2">
-                        <EditSvg @click="edit_index=index,edit_text=memo.text"/>
-                        <TrashSvg @click="delete_memo(index)"/>
+                    <div class="text-xs text-gray-500">
+                        {{show_time(memo.created_at)}}
                     </div>
-                </div>
-                <div class="text-xs text-gray-500">
-                    {{show_time(memo.created_at)}}
                 </div>
             </div>
         </div>
