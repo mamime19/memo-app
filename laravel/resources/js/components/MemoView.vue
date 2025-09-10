@@ -18,6 +18,7 @@ const edit_text = ref('')
 const message=ref('')
 const edit_rows = ref(1)
 const edit_textarea = ref(null)
+const modal_open = ref(false)
 
 const props = defineProps({
     memos: {
@@ -36,19 +37,17 @@ const show_time = (date_str: string) => {
 }
 
 const delete_memo = async (index: number) => {
-    if(confirm(`「${props.memos[index].text}」を削除しますか？`)) {
-        const id = props.memos[index].id
-        console.log(id)
-        try {
-            const response = await axios.delete('http://localhost:48080/api/memos/' + id.toString())
-            const message = response.data.message
-            console.log(message)
-            console.log(index)
-            emit('deleted', response.data.memo, index)
-        } catch (error) {
-            console.error(error)
-            console.log('削除に失敗しました')
-        }
+    const id = props.memos[index].id
+    console.log(id)
+    try {
+        const response = await axios.delete('http://localhost:48080/api/memos/' + id.toString())
+        const message = response.data.message
+        console.log(message)
+        console.log(index)
+        emit('deleted', response.data.memo, index)
+    } catch (error) {
+        console.error(error)
+        console.log('削除に失敗しました')
     }
 }
 
@@ -140,14 +139,26 @@ const enterkey_process = (event: KeyboardEvent, index: number) => {
                                 {{memo.text}}
                             </div>
                         </div>
-                        <div v-if="mouseover_index==index" class="flex gap-2">
+                        <div v-if="mouseover_index==index && modal_open==false" class="flex gap-2">
                             <EditSvg @click="update_editdata(index, memo.text)"/>
-                            <TrashSvg @click="delete_memo(index)"/>
+<!--                            <TrashSvg @click="delete_memo(index)"/>-->
+                            <TrashSvg @click="modal_open=true" />
                         </div>
                     </div>
                     <div class="text-xs text-gray-500">
                         {{show_time(memo.created_at)}}
                     </div>
+                    <Teleport to="body">
+                        <div class="flex justify-center items-center">
+                            <div v-if="modal_open" class="modal bg-white flex flex-col items-center justify-center gap-7 rounded-2xl shadow-md border border-gray-300">
+                                <p>メモを削除しますか？</p>
+                                <div class="flex justify-center gap-3">
+                                    <button type="button" @click="delete_memo(index);modal_open=false" class="h-10 w-20 focus:outline-none text-white bg-red-700 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm dark:bg-red-600 dark:focus:ring-red-900">削除</button>
+                                    <button type="button" @click="modal_open=false" class="h-10 w-20 text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">キャンセル</button>
+                                </div>
+                            </div>
+                        </div>
+                    </Teleport>
                 </div>
             </div>
         </div>
@@ -155,5 +166,13 @@ const enterkey_process = (event: KeyboardEvent, index: number) => {
 </template>
 
 <style scoped>
-
+.modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 250px;
+    height: 180px;
+    z-index: 1000;
+}
 </style>

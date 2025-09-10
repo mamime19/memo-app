@@ -13,11 +13,8 @@ class MemoApiController extends Controller
         return response()->json($memos);
     }
     public function store(Request $request) {
-        $validated = $request->validate([
-            'text' => 'required',
-        ]);
         $memo = Memo::create([
-            'text' => $validated['text'],
+            'text' => $request['text'],
         ]);
         return response()-> json([
             'message' => 'メモを保存しました',
