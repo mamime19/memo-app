@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
-import TextareaForm from "@/components/TextareaForm.vue"
-import MemoView from "@/components/MemoView.vue"
+import TextareaForm from "@/components/MemoPage/TextareaForm.vue"
+import MemoView from "@/components/MemoPage/MemoView.vue"
 import { useRoute } from "vue-router";
+import TitleView from "@/components/MemoPage/TitleView.vue";
+import ButtonView from "@/components/MemoPage/ButtonView.vue";
 
 const route = useRoute()
 const memos = ref([])
@@ -41,7 +43,9 @@ const editmemo = (memo, index) => {
 </script>
 
 <template>
-    <TextareaForm :id="route.params.id" :title="route.query.title" @added="addmemo"/>
+    <TitleView :title="route.query.title"/>
+    <ButtonView />
+    <TextareaForm :id="route.params.id" @added="addmemo"/>
     <MemoView :memos="memos" :id="route.params.id" @deleted="deletememo" @edited="editmemo"/>
 </template>
 

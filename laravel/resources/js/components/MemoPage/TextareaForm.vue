@@ -4,6 +4,7 @@ import { ref,computed } from 'vue'
 import axios from 'axios'
 import {defineEmits} from 'vue'
 import {defineProps} from 'vue'
+import TitleView from "@/components/MemoPage/TitleView.vue";
 
 const is_focused = ref(false)
 const is_composing = ref(false)
@@ -14,9 +15,6 @@ const props = defineProps({
     id: {
         type: Number,
     },
-    title: {
-        type: String,
-    }
 })
 
 const is_disabled = computed(()=>{
@@ -52,9 +50,6 @@ const enterkey_process = (event: KeyboardEvent) => {
 </script>
 
 <template>
-    <div class="flex justify-center mt-9 mb-6">
-        <div class="text-4xl m-2">{{props.title}}</div>
-    </div>
     <div class="flex justify-center">
         <div class="bg-white w-[650px] h-[325px] ms-10 me-10 mt-5 mb-5 rounded-2xl shadow-lg">
             <div class="flex justify-start items-center m-[1.4em] gap-[0.3em]">

@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import { routes } from "vue-router/auto-routes";
-import MainPage from "@/components/MainPage.vue";
-import MemoPage from "@/components/MemoPage.vue";
+import MainPage from "@/pages/MainPage.vue";
+import MemoPage from "@/pages/MemoPage.vue";
 
 const routes = [
     {path:'/',component: MainPage},

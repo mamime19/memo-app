@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import Header from "./components/Header.vue";
-import TextareaForm from "@/components/TextareaForm.vue";
-import MemoView from "@/components/MemoView.vue";
-import MemoPage from "@/components/MemoPage.vue";
-import MainPage from "@/components/MainPage.vue";
+import TextareaForm from "@/components/MemoPage/TextareaForm.vue";
+import MemoView from "@/components/MemoPage/MemoView.vue";
+import MemoPage from "@/pages/MemoPage.vue";
+import MainPage from "@/pages/MainPage.vue";
 </script>
 
 <template>

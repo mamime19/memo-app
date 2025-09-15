@@ -19,6 +19,8 @@ declare module 'vue-router/auto-routes' {
    */
   export interface RouteNamedMap {
     '/': RouteRecordInfo<'/', '/', Record<never, never>, Record<never, never>>,
+    '/MainPage': RouteRecordInfo<'/MainPage', '/MainPage', Record<never, never>, Record<never, never>>,
+    '/MemoPage': RouteRecordInfo<'/MemoPage', '/MemoPage', Record<never, never>, Record<never, never>>,
   }
 
   /**
@@ -34,6 +36,14 @@ declare module 'vue-router/auto-routes' {
   export interface _RouteFileInfoMap {
     'resources/js/pages/index.vue': {
       routes: '/'
+      views: never
+    }
+    'resources/js/pages/MainPage.vue': {
+      routes: '/MainPage'
+      views: never
+    }
+    'resources/js/pages/MemoPage.vue': {
+      routes: '/MemoPage'
       views: never
     }
   }
