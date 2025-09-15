@@ -105,6 +105,45 @@ const enterkey_process = (event: KeyboardEvent, index: number) => {
     }
 }
 
+const url_check = (str) => {
+    if (typeof str !== 'string'){
+        return []
+    }
+    let list = []
+    let http = 'http://'
+    let https = 'https://'
+    let curstr = []
+    let mode = 0
+    for(let i = 0; i < str.length; i++) {
+        if(i < str.length - http.length && mode === 0 && str.substring(i,i + http.length) === http) {
+            if(curstr.length > 0){
+                list.push([curstr, mode])
+            }
+            curstr = ''
+            mode = 1
+        } else if(i < str.length - https.length && mode === 0 && str.substring(i,i + https.length) === https) {
+            if(curstr.length > 0){
+                list.push([curstr, mode])
+            }
+            curstr = ''
+            mode = 1
+        } else if(str[i]===' ' || str[i]==='　' || str[i]=='\n') {
+            if(curstr.length > 0){
+                list.push([curstr, mode])
+            }
+            curstr = ''
+            mode = 0
+        }
+        curstr += str[i]
+    }
+    if (curstr.length > 0) {
+        list.push([curstr, mode]);
+    }
+    return list
+}
+
+console.log(url_check('aaaahttps://chatgpt.com/ bbbb'))
+
 </script>
 
 <template>
@@ -140,7 +179,13 @@ const enterkey_process = (event: KeyboardEvent, index: number) => {
                                 ></textarea>
                             </div>
                             <div v-else>
-                                {{memo.text}}
+<!--                                {{memo.text}}-->
+                                <span v-for="str in url_check(memo.text)">
+                                    <span v-if="str[1] === 0">{{ str[0] }}</span>
+                                    <span v-else>
+                                        <a :href="str[0]" class="text-blue-500 underline hover:text-blue-700">{{ str[0] }}</a>
+                                    </span>
+                                </span>
                             </div>
                         </div>
                         <div v-if="mouseover_index==index && modal_open==false" class="flex gap-2">
