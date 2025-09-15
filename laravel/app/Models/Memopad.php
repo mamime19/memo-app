@@ -5,12 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Memo extends Model
+class Memopad extends Model
 {
     use HasFactory;
-    protected $fillable = ['text'];
-
-    public function memopad() {
-        return $this->belongsTo(Memopad::class);
+    protected $fillable = [
+        'title',
+    ];
+    public function memos() {
+        return $this->hasMany(Memo::class);
     }
 }

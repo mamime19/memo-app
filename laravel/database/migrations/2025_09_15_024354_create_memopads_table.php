@@ -11,10 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('memos', function (Blueprint $table) {
+        Schema::create('memopads', function (Blueprint $table) {
             $table->id();
-            $table->string('text');
-            $table->foreignId('memopad_id');
+            $table->string('title');
             $table->timestamps();
         });
     }
@@ -24,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('memos');
+        Schema::dropIfExists('memopads');
     }
 };

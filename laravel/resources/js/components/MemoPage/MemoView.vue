@@ -19,12 +19,16 @@ const message=ref('')
 const edit_rows = ref(1)
 const edit_textarea = ref(null)
 const modal_open = ref(false)
+const modal_index = ref(-1)
 
 const props = defineProps({
     memos: {
         type: Array,
         default: () => []
-    }
+    },
+    id: {
+        type: Number,
+    },
 })
 
 const show_time = (date_str: string) => {
@@ -40,7 +44,7 @@ const delete_memo = async (index: number) => {
     const id = props.memos[index].id
     console.log(id)
     try {
-        const response = await axios.delete('http://localhost:48080/api/memos/' + id.toString())
+        const response = await axios.delete('http://localhost:48080/api/memopads/' + props.id + '/memos/' + id)
         const message = response.data.message
         console.log(message)
         console.log(index)
@@ -75,7 +79,7 @@ const update_editdata = (newindex, newtext) => {
 const save = async (index: number) => {
     const id = props.memos[index].id
     try {
-        const response = await axios.post('http://localhost:48080/api/memos/' + id.toString(), {
+        const response = await axios.post('http://localhost:48080/api/memopads/' + props.id + '/memos/' + id, {
             text: edit_text.value
         })
         console.log(edit_text)
@@ -142,7 +146,7 @@ const enterkey_process = (event: KeyboardEvent, index: number) => {
                         <div v-if="mouseover_index==index && modal_open==false" class="flex gap-2">
                             <EditSvg @click="update_editdata(index, memo.text)"/>
 <!--                            <TrashSvg @click="delete_memo(index)"/>-->
-                            <TrashSvg @click="modal_open=true" />
+                            <TrashSvg @click="modal_open=true;modal_index=index" />
                         </div>
                     </div>
                     <div class="text-xs text-gray-500">
@@ -153,7 +157,7 @@ const enterkey_process = (event: KeyboardEvent, index: number) => {
                             <div v-if="modal_open" class="modal bg-white flex flex-col items-center justify-center gap-7 rounded-2xl shadow-md border border-gray-300">
                                 <p>メモを削除しますか？</p>
                                 <div class="flex justify-center gap-3">
-                                    <button type="button" @click="delete_memo(index);modal_open=false" class="h-10 w-20 focus:outline-none text-white bg-red-700 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm dark:bg-red-600 dark:focus:ring-red-900">削除</button>
+                                    <button type="button" @click="delete_memo(modal_index);modal_open=false" class="h-10 w-20 focus:outline-none text-white bg-red-700 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm dark:bg-red-600 dark:focus:ring-red-900">削除</button>
                                     <button type="button" @click="modal_open=false" class="h-10 w-20 text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">キャンセル</button>
                                 </div>
                             </div>
