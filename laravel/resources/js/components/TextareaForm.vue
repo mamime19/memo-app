@@ -3,12 +3,21 @@ import PlusSvg from "@/components/svgs/PlusSvg.vue";
 import { ref,computed } from 'vue'
 import axios from 'axios'
 import {defineEmits} from 'vue'
+import {defineProps} from 'vue'
 
 const is_focused = ref(false)
 const is_composing = ref(false)
 const text = ref('')
 const message = ref('')
 const emit = defineEmits(['added'])
+const props = defineProps({
+    id: {
+        type: Number,
+    },
+    title: {
+        type: String,
+    }
+})
 
 const is_disabled = computed(()=>{
     return !is_composing.value && text.value.trim() === ''
@@ -16,7 +25,7 @@ const is_disabled = computed(()=>{
 
 const submit = async () => {
     try {
-        const response = await axios.post('http://localhost:48080/api/memos', {
+        const response = await axios.post('http://localhost:48080/api/memopads/'+props.id+'/memos', {
             text: text.value,
         })
         message.value = response.data.message
@@ -43,8 +52,11 @@ const enterkey_process = (event: KeyboardEvent) => {
 </script>
 
 <template>
+    <div class="flex justify-center mt-9 mb-6">
+        <div class="text-4xl m-2">{{props.title}}</div>
+    </div>
     <div class="flex justify-center">
-        <div class="bg-white w-[650px] h-[325px] ms-10 me-10 mt-10 mb-5 rounded-2xl shadow-lg">
+        <div class="bg-white w-[650px] h-[325px] ms-10 me-10 mt-5 mb-5 rounded-2xl shadow-lg">
             <div class="flex justify-start items-center m-[1.4em] gap-[0.3em]">
                 <PlusSvg size=28></PlusSvg>
                 <div class="text-lg">新しいメモ</div>

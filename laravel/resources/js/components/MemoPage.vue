@@ -1,14 +1,17 @@
 <script setup lang="ts">
-import {ref,onMounted} from 'vue'
+import { ref, onMounted } from 'vue'
 import axios from 'axios'
-import TextareaForm from "@/components/TextareaForm.vue";
-import MemoView from "@/components/MemoView.vue";
+import TextareaForm from "@/components/TextareaForm.vue"
+import MemoView from "@/components/MemoView.vue"
+import { useRoute } from "vue-router";
 
+const route = useRoute()
 const memos = ref([])
 
 const get_memos = async () => {
     try {
-        const response = await axios.get('http://localhost:48080/api/memos')
+        console.log(route.params.id)
+        const response = await axios.get('http://localhost:48080/api/memopads/' + route.params.id + '/memos')
         memos.value = response.data
         console.log('APIレスポンス data:', response.data)
         console.log("メモの取得に成功しました")
@@ -38,8 +41,8 @@ const editmemo = (memo, index) => {
 </script>
 
 <template>
-    <TextareaForm @added="addmemo" />
-    <MemoView :memos="memos" @deleted="deletememo" @edited="editmemo"/>
+    <TextareaForm :id="route.params.id" :title="route.query.title" @added="addmemo"/>
+    <MemoView :memos="memos" :id="route.params.id" @deleted="deletememo" @edited="editmemo"/>
 </template>
 
 <style scoped>

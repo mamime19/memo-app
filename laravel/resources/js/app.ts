@@ -11,4 +11,4 @@ app.use(router);
 /*
 app.component('header-component', Header);
 */
-app.mount("#app");
+app.mount('#app')
