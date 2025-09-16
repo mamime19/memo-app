@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Memo;
 use App\Models\Memopad;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class MemoApiController extends Controller
 {
@@ -16,9 +17,15 @@ class MemoApiController extends Controller
     }
     public function store(Request $request, $memopad_id) {
         $memopad = Memopad::find($memopad_id);
-        $memo = $memopad->memos()->create([
-            'text' => $request['text'],
-        ]);
+        $data = [
+            'text' => $request['text']
+        ];
+        if ($request->hasFile('image')) {
+            $path = $request->file('image')->store('image','public');
+            $url = Storage::url($path);
+            $data['image'] = $url;
+        }
+        $memo = $memopad->memos()->create($data);
         return response()-> json([
             'message' => 'メモを保存しました',
             'memo' => $memo,

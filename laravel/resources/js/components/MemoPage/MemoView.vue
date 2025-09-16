@@ -183,7 +183,7 @@ console.log(url_check('aaaahttps://chatgpt.com/ bbbb'))
                                 <span v-for="str in url_check(memo.text)">
                                     <span v-if="str[1] === 0">{{ str[0] }}</span>
                                     <span v-else>
-                                        <a :href="str[0]" class="text-blue-500 underline hover:text-blue-700">{{ str[0] }}</a>
+                                        <a :href="str[0]" target="_blank" class="text-blue-500 underline hover:text-blue-700">{{ str[0] }}</a>
                                     </span>
                                 </span>
                             </div>
@@ -194,6 +194,7 @@ console.log(url_check('aaaahttps://chatgpt.com/ bbbb'))
                             <TrashSvg @click="modal_open=true;modal_index=index" />
                         </div>
                     </div>
+                    <img v-if="memo.image" :src="memo.image" class="w-[200px]">
                     <div class="text-xs text-gray-500">
                         {{show_time(memo.created_at)}}
                     </div>
