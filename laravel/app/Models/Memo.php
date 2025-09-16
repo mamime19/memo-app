@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Memo extends Model
 {
     use HasFactory;
-    protected $fillable = ['text'];
+    protected $fillable = ['text', 'image'];
 
     public function memopad() {
         return $this->belongsTo(Memopad::class);
