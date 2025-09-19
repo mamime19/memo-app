@@ -8,3 +8,4 @@ Route::get('memopads/{memopad_id}/memos', [MemoApiController::class, 'index']);
 Route::delete('memopads/{memopad_id}/memos/{memo_id}', [MemoApiController::class, 'delete']);
 Route::post('memopads/{memopad_id}/memos/{memo_id}', [MemoApiController::class, 'update']);
 Route::post('memopads', [MemopadApiController::class, 'store']);
+Route::get('memopads/{memopad_id}', [MemopadApiController::class, 'get_title']);

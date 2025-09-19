@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import PlusSvg from "@/components/svgs/PlusSvg.vue";
-import { ref,computed } from 'vue'
+import { ref, computed } from 'vue'
 import axios from 'axios'
 import {defineEmits} from 'vue'
 import {defineProps} from 'vue'
-import TitleView from "@/components/MemoPage/TitleView.vue";
+import TitleView from "@/features/MemoPage/TitleView.vue";
 
 const is_focused = ref(false)
 const is_composing = ref(false)
@@ -80,7 +80,7 @@ const file_change = (event) => {
             <div class="flex gap-3 items-center">
                 <label for="file-upload" class="px-4 py-2 bg-orange-400 text-white rounded cursor-pointer hover:bg-orange-600 transition">ファイルを選択</label>
                 <input id="file-upload" type="file" class="hidden" @change="file_change"/>
-                <p v-if="nowfile" class="text-md">{{ nowfile.name}}</p>
+                <p v-if="nowfile" class="text-md">{{ nowfile.name }}</p>
                 </div>
                 <button @click="submit" :class="['w-full bg-gradient-to-r from-orange-400 via-orange-500 to-orange-600 text-white font-bold p-3 rounded-lg', is_disabled ? 'opacity-50 cursor-not-allowed':'']">
                     <div class="flex justify-center items-center gap-1">

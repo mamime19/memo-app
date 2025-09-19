@@ -1,30 +1,49 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
-import TextareaForm from "@/components/MemoPage/TextareaForm.vue"
-import MemoView from "@/components/MemoPage/MemoView.vue"
+import TextareaForm from "@/features/MemoPage/TextareaForm.vue"
+import MemoView from "@/features/MemoPage/MemoView.vue"
 import { useRoute } from "vue-router";
-import TitleView from "@/components/MemoPage/TitleView.vue";
-import ButtonView from "@/components/MemoPage/ButtonView.vue";
+import TitleView from "@/features/MemoPage/TitleView.vue";
+import ButtonView from "@/features/MemoPage/ButtonView.vue";
+import NotFound from "@/components/NotFound.vue";
 
 const route = useRoute()
 const memos = ref([])
+const title = ref('')
+const is_memopad_existed = ref(false)
 
 const get_memos = async () => {
     try {
         console.log(route.params.id)
         const response = await axios.get('http://localhost:48080/api/memopads/' + route.params.id + '/memos')
-        memos.value = response.data
-        console.log('APIレスポンス data:', response.data)
-        console.log("メモの取得に成功しました")
-        console.log(memos.value)
+        const status = response.data.status
+        if(status == 'success') {
+            is_memopad_existed.value = true
+            memos.value = response.data.memos
+            console.log('APIレスポンス data:', response.data)
+            console.log('メモの取得に成功しました')
+            console.log(memos.value)
+        }
     } catch(error) {
         console.error('メモの取得に失敗しました', error)
     }
 }
 
+const get_title = async () => {
+    try {
+        const response = await axios.get(`http://localhost:48080/api/memopads/${route.params.id}`)
+        title.value = response.data.title
+        console.log('タイトルの取得に成功しました')
+        console.log(title.value)
+    } catch(error) {
+        console.error('タイトルの取得に失敗しました', error)
+    }
+}
+
 onMounted(() => {
     get_memos()
+    get_title()
 })
 
 const addmemo = (newmemo) => {
@@ -43,10 +62,15 @@ const editmemo = (memo, index) => {
 </script>
 
 <template>
-    <TitleView :title="route.query.title"/>
-    <ButtonView />
-    <TextareaForm :id="route.params.id" @added="addmemo"/>
-    <MemoView :memos="memos" :id="route.params.id" @deleted="deletememo" @edited="editmemo"/>
+    <div v-if="is_memopad_existed==true">
+        <TitleView :title="title" />
+        <ButtonView />
+        <TextareaForm :id="route.params.id" @added="addmemo"/>
+        <MemoView :memos="memos" :id="route.params.id" @deleted="deletememo" @edited="editmemo"/>
+    </div>
+    <div v-else>
+        <NotFound />
+    </div>
 </template>
 
 <style scoped>
