@@ -12,8 +12,17 @@ class MemoApiController extends Controller
 {
     public function index($memopad_id) {
         $memopad = Memopad::find($memopad_id);
-        $memos = $memopad->memos()->get();
-        return response()->json($memos);
+        if($memopad == null) {
+            return response()-> json([
+                'status' => 'error',
+            ]);
+        } else {
+            $memos = $memopad->memos()->get();
+            return response()->json([
+                'status' => 'success',
+                'memos' => $memos,
+            ]);
+        }
     }
     public function store(Request $request, $memopad_id) {
         $memopad = Memopad::find($memopad_id);

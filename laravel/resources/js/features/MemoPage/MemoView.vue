@@ -8,6 +8,7 @@ import { defineProps } from 'vue'
 import { defineEmits } from 'vue'
 import { watch } from 'vue'
 import { nextTick } from 'vue'
+import { computed } from 'vue'
 
 
 const mouseover_index = ref(-1)
@@ -16,7 +17,6 @@ const is_focused = ref(false)
 const emit = defineEmits(['deleted','edited'])
 const edit_text = ref('')
 const message=ref('')
-const edit_rows = ref(1)
 const edit_textarea = ref(null)
 const modal_open = ref(false)
 const modal_index = ref(-1)
@@ -62,13 +62,14 @@ watch(edit_index, async (new_index) => {
     }
 })
 
-watch(edit_text, (new_text) => {
-    edit_rows.value = 1
-    for(let i = 0; i < new_text.length; i++) {
-        if(new_text[i] === '\n') {
-            edit_rows.value++
+const edit_rows = computed(()=>{
+    let count = 1
+    for(let char of edit_text.value) {
+        if(char === '\n'){
+            count++
         }
     }
+    return count
 })
 
 const update_editdata = (newindex, newtext) => {
@@ -106,9 +107,6 @@ const enterkey_process = (event: KeyboardEvent, index: number) => {
 }
 
 const url_check = (str) => {
-    if (typeof str !== 'string'){
-        return []
-    }
     let list = []
     let http = 'http://'
     let https = 'https://'
@@ -142,7 +140,6 @@ const url_check = (str) => {
     return list
 }
 
-console.log(url_check('aaaahttps://chatgpt.com/ bbbb'))
 
 </script>
 

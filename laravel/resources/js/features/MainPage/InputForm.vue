@@ -7,8 +7,7 @@ const title = ref('')
 const message = ref('')
 const id = ref(-1)
 const tomemo = () => {
-    // router.push('/memopads/' + id.value + '/memos')
-    router.push({name: 'Memopad', params: { id: id.value }, query: { title: title.value }})
+    router.push({name: 'Memopad', params: { id: id.value }})
 }
 
 const submit = async () => {

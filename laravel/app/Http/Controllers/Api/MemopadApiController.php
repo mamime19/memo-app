@@ -17,4 +17,10 @@ class MemopadApiController extends Controller
             'message' => 'メモ帳を保存しました'
         ]);
     }
+    public function get_title($memopad_id) {
+        $memopad = Memopad::find($memopad_id);
+        return response()-> json([
+            'title' => $memopad->title,
+        ]);
+    }
 }
