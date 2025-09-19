@@ -4,7 +4,6 @@ import { ref, computed } from 'vue'
 import axios from 'axios'
 import {defineEmits} from 'vue'
 import {defineProps} from 'vue'
-import TitleView from "@/features/MemoPage/TitleView.vue";
 
 const is_focused = ref(false)
 const is_composing = ref(false)
