@@ -2,8 +2,8 @@
 import PlusSvg from "@/components/svgs/PlusSvg.vue";
 import { ref, computed } from 'vue'
 import axios from 'axios'
-import {defineEmits} from 'vue'
-import {defineProps} from 'vue'
+import { defineEmits } from 'vue'
+import { defineProps } from 'vue'
 
 const is_focused = ref(false)
 const is_composing = ref(false)
@@ -12,6 +12,7 @@ const message = ref('')
 const filename = ref('')
 const nowfile = ref(null)
 const emit = defineEmits(['added'])
+
 const props = defineProps({
     id: {
         type: Number,

@@ -176,7 +176,6 @@ const url_check = (str) => {
                                 ></textarea>
                             </div>
                             <div v-else>
-<!--                                {{memo.text}}-->
                                 <span v-for="str in url_check(memo.text)">
                                     <span v-if="str[1] === 0">{{ str[0] }}</span>
                                     <span v-else>
@@ -187,7 +186,6 @@ const url_check = (str) => {
                         </div>
                         <div v-if="mouseover_index==index && modal_open==false" class="flex gap-2">
                             <EditSvg @click="update_editdata(index, memo.text)"/>
-<!--                            <TrashSvg @click="delete_memo(index)"/>-->
                             <TrashSvg @click="modal_open=true;modal_index=index" />
                         </div>
                     </div>

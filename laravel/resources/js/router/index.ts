@@ -1,10 +1,27 @@
 import { createRouter, createWebHistory } from "vue-router";
-import MainPage from "@/pages/MainPage.vue";
+import MemoPadPage from "@/pages/MemoPadPage.vue";
 import MemoPage from "@/pages/MemoPage.vue";
 import NotFound from "@/components/NotFound.vue";
+import MainPage from "@/pages/MainPage.vue";
+import Registrations from "@/pages/Registrations.vue";
+import UserPage from "@/pages/UserPage.vue";
 
 const routes = [
-    {path:'/',component: MainPage},
+    {
+        path: '/',
+        name: 'Main',
+        component: MainPage
+    },
+    {
+        path: '/users/:id/memopads',
+        name: 'User',
+        component: UserPage
+    },
+    {
+        path:'/registration',
+        name: 'Registrations',
+        component: Registrations
+    },
     {
         path: '/memopads/:id/memos',
         name: 'Memopad',
