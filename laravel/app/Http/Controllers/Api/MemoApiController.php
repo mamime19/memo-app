@@ -10,10 +10,12 @@ use Illuminate\Support\Facades\Storage;
 
 class MemoApiController extends Controller
 {
-    public function index($memopad_id) {
-        $memopad = Memopad::find($memopad_id);
+    public function index($user_id, $memopad_id) {
+        $memopad = Memopad::where('id', $memopad_id)
+            ->where('user_id', $user_id)
+            ->first();
         if($memopad == null) {
-            return response()-> json([
+            return response()->json([
                 'status' => 'error',
             ]);
         } else {
@@ -24,8 +26,10 @@ class MemoApiController extends Controller
             ]);
         }
     }
-    public function store(Request $request, $memopad_id) {
-        $memopad = Memopad::find($memopad_id);
+    public function store(Request $request, $memopad_id, $user_id) {
+        $memopad = Memopad::where('id', $memopad_id)
+            ->where('user_id', $user_id)
+            ->first();
         $data = [
             'text' => $request['text']
         ];
@@ -40,8 +44,10 @@ class MemoApiController extends Controller
             'memo' => $memo,
         ]);
     }
-    public function delete(Request $request, $memopad_id) {
-        $memopad = Memopad::find($memopad_id);
+    public function delete(Request $request, $memopad_id, $user_id) {
+        $memopad = Memopad::where('id', $memopad_id)
+            ->where('user_id', $user_id)
+            ->first();
         $memo = $memopad->memos()->find($request['memo_id']);
         $memo->delete();
         return response()-> json([
@@ -49,8 +55,10 @@ class MemoApiController extends Controller
             'memo' => $memo,
         ]);
     }
-    public function update(Request $request, $memopad_id) {
-        $memopad = Memopad::find($memopad_id);
+    public function update(Request $request, $memopad_id, $user_id) {
+        $memopad = Memopad::where('id', $memopad_id)
+            ->where('user_id', $user_id)
+            ->first();
         $memo = $memopad->memos()->find($request['memo_id']);
         $memo->text = $request['text'];
         $memo->save();
