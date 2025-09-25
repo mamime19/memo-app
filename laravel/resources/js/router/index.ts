@@ -5,6 +5,7 @@ import NotFound from "@/components/NotFound.vue";
 import MainPage from "@/pages/MainPage.vue";
 import Registrations from "@/pages/Registrations.vue";
 import UserPage from "@/pages/UserPage.vue";
+import Login from "@/pages/Login.vue";
 
 const routes = [
     {
@@ -21,6 +22,11 @@ const routes = [
         path:'/registration',
         name: 'Registrations',
         component: Registrations
+    },
+    {
+        path:'/login',
+        name:'Login',
+        component: Login
     },
     {
         path: '/users/:user_id/memopads/:memopad_id/memos',

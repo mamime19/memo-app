@@ -30,8 +30,9 @@ const register = async () => {
 
 <template>
     <div class="flex justify-center">
-        <div class="flex flex-col items-center justify-center h-[450px] w-[500px] bg-white rounded-2xl shadow-md m-10 p-8 gap-20">
-            <div class="flex flex-col gap-5 w-full">
+        <div class="flex flex-col items-center justify-center w-[500px] bg-white rounded-2xl shadow-md m-10 p-8 gap-16">
+            <div class="flex flex-col gap-4 w-full">
+                <div class="flex justify-center text-2xl">新規登録</div>
                 <div class="flex flex-col gap-0.5">
                     <label for="name" class="block mb-2 text-md font-medium">名前</label>
                     <input v-model="name" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2" placeholder="（例）山田太郎"/>

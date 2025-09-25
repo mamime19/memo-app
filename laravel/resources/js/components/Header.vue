@@ -11,6 +11,10 @@ const to_home = () => {
 const to_registration = () => {
     router.push({name: 'Registrations'})
 }
+
+const to_login = () => {
+    router.push({name: 'Login'})
+}
 </script>
 
 <template>
@@ -23,7 +27,10 @@ const to_registration = () => {
                 </div>
                 <div class="text-sm">思いついたことをサッと記録しよう</div>
             </div>
-            <button type="button" @click="to_registration" class="text-orange-500 bg-white border border-orange-500 hover:bg-orange-500 hover:text-white focus:ring-2 focus:ring-orange-300 font-medium rounded-lg text-sm px-5 py-2.5">新規登録</button>
+            <div class="flex gap-2">
+                <button type="button" @click="to_registration" class="text-orange-500 bg-white border border-orange-500 hover:bg-orange-500 hover:text-white focus:ring-2 focus:ring-orange-300 font-medium rounded-lg text-sm px-5 py-2.5">新規登録</button>
+                <button type="button" @click="to_login" class="text-orange-500 bg-white border border-orange-500 hover:bg-orange-500 hover:text-white focus:ring-2 focus:ring-orange-300 font-medium rounded-lg text-sm px-5 py-2.5">ログイン</button>
+            </div>
     </div>
 </template>
 
