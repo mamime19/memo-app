@@ -9,18 +9,20 @@ const message = ref('')
 const id = ref(-1)
 
 const props = defineProps({
-    id: {
+    user_id: {
+        type: Number,
     }
 })
 
 const tomemo = () => {
-    router.push({name: 'Memopad', params: { id: id.value }})
+    router.push({name: 'Memo', params: { user_id: props.user_id, memopad_id: id.value }})
 }
 
 const submit = async () => {
     try {
-        const response = await axios.post(`http://localhost:48080/api/users/${props.id}/memopads`,{
-            title: title.value
+        const response = await axios.post(`http://localhost:48080/api/users/${props.user_id}/memopads`,{
+            title: title.value,
+            user_id: props.user_id
         })
         message.value = response.data.message
         id.value = response.data.id

@@ -13,7 +13,7 @@ const routes = [
         component: MainPage
     },
     {
-        path: '/users/:id/memopads',
+        path: '/users/:user_id/memopads',
         name: 'User',
         component: UserPage
     },
@@ -23,8 +23,8 @@ const routes = [
         component: Registrations
     },
     {
-        path: '/memopads/:id/memos',
-        name: 'Memopad',
+        path: '/users/:user_id/memopads/:memopad_id/memos',
+        name: 'Memo',
         component: MemoPage
     },
     {

@@ -26,9 +26,12 @@ const props = defineProps({
         type: Array,
         default: () => []
     },
-    id: {
+    user_id: {
         type: Number,
     },
+    memopad_id: {
+        type: Number,
+    }
 })
 
 const show_time = (date_str: string) => {
@@ -44,7 +47,7 @@ const delete_memo = async (index: number) => {
     const id = props.memos[index].id
     console.log(id)
     try {
-        const response = await axios.delete('http://localhost:48080/api/memopads/' + props.id + '/memos/' + id)
+        const response = await axios.delete(`http://localhost:48080/api/users/${props.user_id}/memopads/${props.memopad_id}/memos/${id}`)
         const message = response.data.message
         console.log(message)
         console.log(index)
@@ -80,7 +83,7 @@ const update_editdata = (newindex, newtext) => {
 const save = async (index: number) => {
     const id = props.memos[index].id
     try {
-        const response = await axios.post('http://localhost:48080/api/memopads/' + props.id + '/memos/' + id, {
+        const response = await axios.post(`http://localhost:48080/api/users/${props.user_id}/memopads/${props.memopad_id}/memos/${id}`, {
             text: edit_text.value
         })
         console.log(edit_text)

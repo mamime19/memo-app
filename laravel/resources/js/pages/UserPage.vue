@@ -1,15 +1,16 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import {onMounted, ref} from 'vue'
 import axios from 'axios'
 import { useRoute } from "vue-router";
-import InputForm from "@/features/MemoPadPage/InputForm.vue";
+import InputForm from "@/features/UserPage/InputForm.vue";
+import MemopadView from "@/features/UserPage/MemopadView.vue";
 
 const router = useRoute()
 const memopads = ref([])
 
 const get_memopads = async () => {
     try {
-        const response = await axios.get(`http://localhost:48080/api/users/${router.params.id}`)
+        const response = await axios.get(`http://localhost:48080/api/users/${router.params.user_id}/memopads`)
         memopads.value = response.data.memopads
         console.log(memopads.value)
     } catch (error) {
@@ -17,18 +18,16 @@ const get_memopads = async () => {
     }
 }
 
+onMounted(()=>{
+    get_memopads()
+    console.log(router.params.user_id)
+})
+
 </script>
 
 <template>
-    <InputForm :id="router.params.id"/>
-    <div class="flex justify-center m-10">
-        <div class="text-3xl">作成したメモ帳</div>
-    </div>
-    <ul>
-        <li v-for="memopad in memopads" :key="memopad.id">
-            {{ memopad.title }}
-        </li>
-    </ul>
+    <InputForm :user_id="router.params.user_id"/>
+    <MemopadView :user_id="router.params.user_id" :memopads="memopads"/>
 </template>
 
 <style scoped>
