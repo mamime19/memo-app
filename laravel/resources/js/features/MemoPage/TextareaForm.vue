@@ -14,9 +14,12 @@ const nowfile = ref(null)
 const emit = defineEmits(['added'])
 
 const props = defineProps({
-    id: {
+    user_id: {
         type: Number,
     },
+    memopad_id: {
+        type: Number,
+    }
 })
 
 const is_disabled = computed(()=>{
@@ -28,7 +31,7 @@ const submit = async () => {
         const formData = new FormData()
         formData.append('text', text.value)
         formData.append('image', nowfile.value)
-        const response = await axios.post('http://localhost:48080/api/memopads/' + props.id + '/memos', formData)
+        const response = await axios.post(`http://localhost:48080/api/users/${props.user_id}/memopads/${props.memopad_id}/memos`, formData)
         message.value = response.data.message
         text.value = ''
         nowfile.value = null
@@ -37,6 +40,7 @@ const submit = async () => {
     } catch (error) {
         message.value = 'エラーが発生しました。'
         console.error(error.message)
+        console.log(props.user_id)
     }
 }
 

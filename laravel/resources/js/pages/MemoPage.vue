@@ -16,7 +16,7 @@ const is_memopad_existed = ref(false)
 const get_memos = async () => {
     try {
         console.log(route.params.id)
-        const response = await axios.get('http://localhost:48080/api/memopads/' + route.params.id + '/memos')
+        const response = await axios.get(`http://localhost:48080/api/users/${route.params.user_id}/memopads/${route.params.memopad_id}/memos`)
         const status = response.data.status
         if(status == 'success') {
             is_memopad_existed.value = true
@@ -32,7 +32,7 @@ const get_memos = async () => {
 
 const get_title = async () => {
     try {
-        const response = await axios.get(`http://localhost:48080/api/memopads/${route.params.id}`)
+        const response = await axios.get(`http://localhost:48080/api/users/${route.params.user_id}/memopads/${route.params.memopad_id}`)
         title.value = response.data.title
         console.log('タイトルの取得に成功しました')
         console.log(title.value)
@@ -65,8 +65,8 @@ const editmemo = (memo, index) => {
     <div v-if="is_memopad_existed==true">
         <TitleView :title="title" />
         <ButtonView />
-        <TextareaForm :id="route.params.id" @added="addmemo"/>
-        <MemoView :memos="memos" :id="route.params.id" @deleted="deletememo" @edited="editmemo"/>
+        <TextareaForm :user_id="route.params.user_id" :memopad_id="route.params.memopad_id" @added="addmemo"/>
+        <MemoView :memos="memos" :user_id="route.params.user_id" :memopad_id="route.params.memopad_id" @deleted="deletememo" @edited="editmemo"/>
     </div>
     <div v-else>
         <NotFound />

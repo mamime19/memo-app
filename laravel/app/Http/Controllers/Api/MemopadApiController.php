@@ -18,8 +18,9 @@ class MemopadApiController extends Controller
         ]);
     }
     public function store(Request $request, $user_id) {
-        $memopad = Memopad::where('user_id', $user_id)->create([
+        $memopad = Memopad::create([
             'title' => $request['title'],
+            'user_id' => $user_id,
         ]);
         return response()-> json([
             'id' => $memopad->id,

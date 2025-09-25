@@ -20,7 +20,7 @@ const register = async () => {
         name.value = ""
         email.value = ""
         password.value = ""
-        router.push({name: 'User', params: { id: id }})
+        router.push({name: 'User', params: { user_id: id }})
         console.log(message)
     } catch (error) {
         console.error(error)
@@ -30,7 +30,7 @@ const register = async () => {
 
 <template>
     <div class="flex justify-center">
-        <div class="flex flex-col items-center justify-center h-[450px] w-[500px] bg-white rounded-2xl shadow-md m-5 p-8 gap-20">
+        <div class="flex flex-col items-center justify-center h-[450px] w-[500px] bg-white rounded-2xl shadow-md m-10 p-8 gap-20">
             <div class="flex flex-col gap-5 w-full">
                 <div class="flex flex-col gap-0.5">
                     <label for="name" class="block mb-2 text-md font-medium">名前</label>

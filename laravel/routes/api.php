@@ -11,4 +11,4 @@ Route::post('users/{user_id}/memopads/{memopad_id}/memos/{memo_id}', [MemoApiCon
 Route::post('users/{user_id}/memopads', [MemopadApiController::class, 'store']);
 Route::get('users/{user_id}/memopads/{memopad_id}', [MemopadApiController::class, 'get_title']);
 Route::post('users/', [UserApiController::class, 'store']);
-Route::get('users/{user_id}', [UserApiController::class, 'index']);
+Route::get('users/{user_id}/memopads', [MemopadApiController::class, 'index']);

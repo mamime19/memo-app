@@ -26,7 +26,7 @@ class MemoApiController extends Controller
             ]);
         }
     }
-    public function store(Request $request, $memopad_id, $user_id) {
+    public function store(Request $request, $user_id, $memopad_id) {
         $memopad = Memopad::where('id', $memopad_id)
             ->where('user_id', $user_id)
             ->first();
@@ -44,7 +44,7 @@ class MemoApiController extends Controller
             'memo' => $memo,
         ]);
     }
-    public function delete(Request $request, $memopad_id, $user_id) {
+    public function delete(Request $request, $user_id, $memopad_id) {
         $memopad = Memopad::where('id', $memopad_id)
             ->where('user_id', $user_id)
             ->first();
@@ -55,7 +55,7 @@ class MemoApiController extends Controller
             'memo' => $memo,
         ]);
     }
-    public function update(Request $request, $memopad_id, $user_id) {
+    public function update(Request $request, $user_id, $memopad_id) {
         $memopad = Memopad::where('id', $memopad_id)
             ->where('user_id', $user_id)
             ->first();
